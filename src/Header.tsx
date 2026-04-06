@@ -1,19 +1,41 @@
-import { User } from './api/authenticate';
+import { useContext } from 'react';
+import { authenticate, User } from './api/authenticate';
+import { useAppContext } from './AppContext';
+import { authorize } from './api/authorize';
 
-type Props = {
+/* type Props = {
   user: undefined | User;
   onSignInClick: () => void;
   loading: boolean;
-};
+}; */
 
-export function Header({ user, onSignInClick, loading }: Props) {
+export function Header() {
+  const { user, loading, dispatch } = useAppContext(); //
+
+  async function handleSignInClick() {
+    dispatch({ type: 'authenticate' });
+    const authenticatedUser = await authenticate(); // { id: '1', name: 'Bob' }
+    console.log(authenticatedUser); // {id: '1', name: 'Bob'}
+    dispatch({
+      type: 'authenticated',
+      user: authenticatedUser, // // { id: '1', name: 'Bob' }
+    });
+    /* if (authenticatedUser !== undefined) {
+      dispatch({ type: 'authorize' });
+      const authorizedPermissions = await authorize(authenticatedUser.id); // ['admin']
+      dispatch({
+        type: 'authorized',
+        permissions: authorizedPermissions, // ['admin']
+      });
+    } */
+  }
   return (
     <header className="flex justify-between items-center border-b-2 border-gray-100 py-6">
       {user ? (
         <span className="ml-auto font-bold">{user.name} has signed in</span>
       ) : (
         <button
-          onClick={onSignInClick}
+          onClick={handleSignInClick}
           className="whitespace-nowrap inline-flex items-center justify-center ml-auto px-4 py-2 w-36 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
           disabled={loading}
         >

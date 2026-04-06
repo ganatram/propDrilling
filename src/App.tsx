@@ -1,79 +1,49 @@
 import { useReducer } from 'react';
+/* import { Header } from './Header';
+import { Main } from './Main'; */
+// import { authenticate, User } from './api/authenticate';
+// import { authorize } from './api/authorize';
+import { AppProvider } from './AppContext';
+
 import { Header } from './Header';
 import { Main } from './Main';
-import { authenticate, User } from './api/authenticate';
-import { authorize } from './api/authorize';
+import { Test1 } from './Test1';
 
-type State = {
-  user: undefined | User;
-  permissions: undefined | string[];
-  loading: boolean;
-};
-const initialState: State = {
-  user: undefined,
-  permissions: undefined,
-  loading: false,
-};
-
-type Action =
-  | {
-      type: 'authenticate';
-    }
-  | {
-      type: 'authenticated';
-      user: User | undefined;
-    }
-  | {
-      type: 'authorize';
-    }
-  | {
-      type: 'authorized';
-      permissions: string[];
-    };
-
-function reducer(state: State, action: Action): State {
-  switch (action.type) {
-    case 'authenticate':
-      return { ...state, loading: true };
-    case 'authenticated':
-      return { ...state, loading: false, user: action.user };
-    case 'authorize':
-      return { ...state, loading: true };
-    case 'authorized':
-      return {
-        ...state,
-        loading: false,
-        permissions: action.permissions,
-      };
-    default:
-      return state;
-  }
-}
+/* state = initialState // {
+user: undefined, // { id: '1', name: 'Bob' }
+permissions: undefined,
+loading: false,
+} */
 
 function App() {
-  const [{ user, permissions, loading }, dispatch] = useReducer(reducer, initialState);
-
-  async function handleSignInClick() {
+  /*   async function handleSignInClick() {
     dispatch({ type: 'authenticate' });
-    const authenticatedUser = await authenticate();
+    const authenticatedUser = await authenticate(); // { id: '1', name: 'Bob' }
+    console.log(authenticatedUser); // {id: '1', name: 'Bob'}
     dispatch({
       type: 'authenticated',
-      user: authenticatedUser,
+      user: authenticatedUser, // // { id: '1', name: 'Bob' }
     });
     if (authenticatedUser !== undefined) {
       dispatch({ type: 'authorize' });
-      const authorizedPermissions = await authorize(authenticatedUser.id);
+      const authorizedPermissions = await authorize(authenticatedUser.id); // ['admin']
       dispatch({
         type: 'authorized',
-        permissions: authorizedPermissions,
+        permissions: authorizedPermissions, // ['admin']
       });
     }
-  }
+  } */
 
   return (
-    <div className="max-w-7xl mx-auto px-4">
+    /*  <div className="max-w-7xl mx-auto px-4">
       <Header user={user} onSignInClick={handleSignInClick} loading={loading} />
       <Main user={user} permissions={permissions} />
+    </div> */
+    <div className="max-w-7xl mx-auto px-4">
+      <AppProvider>
+        <Header />
+        <Main />
+      </AppProvider>
     </div>
   );
 }
