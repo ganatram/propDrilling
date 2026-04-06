@@ -6,6 +6,12 @@ import { authenticate } from './api/authenticate';
 import { authorize } from './api/authorize';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from './store/store';
+import {
+  authenticateAction,
+  authenticatedAction,
+  authorizeAction,
+  authorizedAction,
+} from './store/userSlice';
 
 /* type Props = {
   user: undefined | User;
@@ -20,21 +26,15 @@ export function Header() {
   const dispatch = useDispatch();
 
   async function handleSignInClick() {
-    dispatch({ type: 'authenticate' });
+    dispatch(authenticateAction());
     const authenticatedUser = await authenticate(); // { id: '1', name: 'Bob' }
     console.log(authenticatedUser); // {id: '1', name: 'Bob'}
-    dispatch({
-      type: 'authenticated',
-      user: authenticatedUser, // // { id: '1', name: 'Bob' }
-    });
-    /* if (authenticatedUser !== undefined) {
-      dispatch({ type: 'authorize' });
+    dispatch(authenticatedAction(authenticatedUser));
+    if (authenticatedUser !== undefined) {
+      dispatch(authorizeAction());
       const authorizedPermissions = await authorize(authenticatedUser.id); // ['admin']
-      dispatch({
-        type: 'authorized',
-        permissions: authorizedPermissions, // ['admin']
-      });
-    } */
+      dispatch(authorizedAction(authorizedPermissions));
+    }
   }
   return (
     <header className="flex justify-between items-center border-b-2 border-gray-100 py-6">
