@@ -7,7 +7,6 @@ type State = {
   permissions: undefined | string[];
   loading: boolean;
 };
-
 const initialState: State = {
   user: undefined,
   permissions: undefined,
@@ -34,6 +33,7 @@ export const userSlice = createSlice({
     },
   },
 });
+
 export const { authenticateAction, authenticatedAction, authorizeAction, authorizedAction } =
   userSlice.actions;
 
