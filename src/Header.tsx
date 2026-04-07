@@ -30,11 +30,11 @@ export function Header() {
     const authenticatedUser = await authenticate(); // { id: '1', name: 'Bob' }
     console.log(authenticatedUser); // {id: '1', name: 'Bob'}
     dispatch(authenticatedAction(authenticatedUser));
-    if (authenticatedUser !== undefined) {
+    /*   if (authenticatedUser !== undefined) {
       dispatch(authorizeAction());
       const authorizedPermissions = await authorize(authenticatedUser.id); // ['admin']
       dispatch(authorizedAction(authorizedPermissions));
-    }
+    } */
   }
   return (
     <header className="flex justify-between items-center border-b-2 border-gray-100 py-6">
